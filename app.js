@@ -15,7 +15,7 @@ app.get('/', async (req, res) => {
     try {
         const response = await axios.get('https://api.jikan.moe/v4/anime/1/');
         // const data = JSON.parse(response)
-        console.log(response)
+        console.log(response.data.data)
         res.json(response.data)
     } catch (error) {
         console.log(error)
