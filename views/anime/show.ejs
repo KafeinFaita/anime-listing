@@ -9,5 +9,28 @@
 <body>
     <h1><%= data.titles[0].title %></h1>
     <img src="<%= data.images.jpg.image_url %> " alt="">
+
+    <form>
+        <h3>Add to List</h3>
+        <select name="status">
+            <option disabled selected>Status</option>
+            <option value="completed">Completed</option>
+            <option value="on_hold">On Hold</option>
+            <option value="plan_to_watch">Plan To Watch</option>
+            <option value="dropped">Dropped</option>
+        </select>
+
+        <select name="score">
+            <option disabled selected>Score</option>
+<% for(let x = 1; x <= 10; x++) { %>
+        <option value="<%= x %>"><%= x %></option>
+<% } %>
+        </select>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Sypnosis:</h2>
+    <p><%= data.synopsis %></p>
 </body>
 </html>

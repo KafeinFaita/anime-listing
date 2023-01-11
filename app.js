@@ -1,7 +1,19 @@
+require('dotenv').config();
+
 const express = require('express');
-const axios = require('axios');
 const app = express();
+const session = require('express-session');
 const routes = require('./routes');
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { 
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000
+     }
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -10,17 +22,6 @@ app.use(express.static(__dirname + '/public'));
 app.use(routes);
 
 const port = process.env.PORT || 8000;
-
-app.get('/', async (req, res) => {
-    try {
-        const response = await axios.get('https://api.jikan.moe/v4/anime/1/');
-        // const data = JSON.parse(response)
-        console.log(response.data.data)
-        res.json(response.data)
-    } catch (error) {
-        console.log(error)
-    }
-})
 
 app.listen(port, () => {
     console.log("Listening on port " + port);
