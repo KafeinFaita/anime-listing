@@ -1,11 +1,13 @@
-<% if (loggedIn) { %> 
-
 <div class="user_bar">
+<% if (loggedIn) { %> 
     <p>Welcome, <%= username %>!</p>
     <a href="/logout">Logout</a>
+<% } else { %> 
+    <a href="/login">Login</a>
+    <a href="/users/new">Signup</a>
+<% } %>
 </div>
 
-<% } %> 
 
 <div class="navbar">
     <h1>LOGO</h1>

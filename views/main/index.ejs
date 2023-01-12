@@ -3,12 +3,18 @@
 <%- include('../partials/head'); %> 
 <body>
     <%- include('../partials/navbar'); %> 
-    <h1>home page</h1>
-    <h2>Top Airing</h2>
+    <div class="home_main">
+        <h1>home page</h1>
+        <h2>Top Airing</h2>
+        <div class="home_img_container">
 <% animeData.forEach(anime => { %>
-    <a href="/anime/<%- anime.mal_id %>">
-        <img src="<%- anime.images.jpg.image_url %>" alt="" height="318px">
-    </a>
+            <a href="/anime/<%- anime.mal_id %>">
+                <img src="<%- anime.images.jpg.image_url %>" alt="">
+            </a>
 <% }) %> 
+        </div>
+
+    </div>
+    <%- include('../partials/footer') %> 
 </body>
 </html>
