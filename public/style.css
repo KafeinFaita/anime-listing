@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    color: red;
+}
+
+.user_bar {
+    background-color: green;
+    padding: 5px;
+    color: white;
+    font-weight: bold;
+}
+
+    .user_bar p {
+        display: inline-block;
+    }
+
+
+.navbar {
+    display: flex;
+    border-bottom: 2px solid black;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+    .menu_links {
+        display: flex;
+      
+    }
+
+        .menu_links li {
+            list-style-type: none;
+            margin-left: 15px;
+            font-size: 20px;
+        }
