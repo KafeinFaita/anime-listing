@@ -10,10 +10,14 @@ class SessionController {
     async create(req, res) {
         try {
             const user = await Session.login(req.body);
+
+            if (user.hasOwnProperty('error')) {
+                return res.json({ error: user.error });
+            }
             console.log(user)
             req.session.loggedIn = true;
             req.session.user = user;
-            res.redirect('/');
+            res.json({ success: true });
         } catch (error) {
             console.log(error);
         }

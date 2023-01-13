@@ -16,7 +16,7 @@ router.get('/logout', SessionController.destroy);
 router.get('/users/new', UserController.new);
 router.post('/users', UserController.create);
 
-router.get('/anime/:id', AnimeController.show);
+router.get('/anime/:id', Middleware.getUser, AnimeController.show);
 
 module.exports = router;
 
