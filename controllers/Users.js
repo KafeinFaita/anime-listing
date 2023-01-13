@@ -7,8 +7,12 @@ class UserController {
 
     async create(req, res) {
         try {
-            await User.createNew(req.body);
-            res.redirect('/');
+            const user = await User.createNew(req.body);
+            if (user.errors) {
+                return res.json({ errors: user.errors })
+            }
+
+            res.json({ success: true });
         } catch (error) {
             console.log(error)
         }

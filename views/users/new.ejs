@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign-up</title>
-</head>
+<%- include('../partials/head') %> 
 <body>
-    <h1>NEW USER SIGNUP</h1>
+    <div class="signup_main">
+        <form>
+            <h1>SIGNUP</h1>
+            <input type="text" name="username" id="username" placeholder="Username">
+            <input type="password" name="password" id="password" placeholder="Password">
+            <input type="text" name="email" id="email" placeholder="Email Address">
+    
+            <input type="submit" value="Signup">
 
-    <form action="/users" method="post">
-        <input type="text" name="username" id="username" placeholder="Username">
-        <input type="password" name="password" id="password" placeholder="Password">
-        <input type="text" name="email" id="email" placeholder="Email Address">
-
-        <input type="submit" value="Signup">
-    </form>
+            <div class="signup_errors"></div>
+        </form>
+    </div>
 </body>
+
+<script>
+    const form = document.querySelector('form');
+    const signupErrors = document.querySelector('.signup_errors');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        // remove previous errors if there are any
+        signupErrors.style.display = 'none';
+        while (signupErrors.firstChild) {
+            signupErrors.removeChild(signupErrors.firstChild);
+        }
+
+        const username = form.username.value;
+        const password = form.password.value;
+        const email = form.email.value;
+
+        try {
+            const response = await fetch('/users', {
+                method: 'POST',
+                body: JSON.stringify({ username, password, email }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+
+            if(data.errors) {
+                for(let x = 0; x < data.errors.length; x++) {
+                    const p = document.createElement('p');
+                    p.innerHTML = data.errors[x];
+                    signupErrors.appendChild(p);
+                }
+                signupErrors.style.display = 'block';
+            } else if (data.success) {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            
+        }
+    });
+</script>
 </html>
