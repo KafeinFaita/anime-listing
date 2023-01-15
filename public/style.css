@@ -91,6 +91,20 @@
             height: 30px;
         }
 
+/* anime single page */
+
+.anime_content_body {
+    display: flex;
+}
+
+    .anime_info {
+        margin-left: 30px;
+    }
+
+        .anime_info p {
+            margin-top: 5px;
+        }
+
    
 
     

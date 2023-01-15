@@ -3,37 +3,75 @@
 
 <%- include('../partials/head'); %> 
 <body>
-
     <%- include('../partials/navbar'); %> 
 
-    <div class="content_body">
-        <h1><%= data.titles[0].title %></h1>
-        <img src="<%= data.images.jpg.image_url %> " alt="">
+    <div class="content_body anime_content_body">
+        <div class="anime_side">
+            <img src="<%= data.images.jpg.image_url %> " alt="">
 
-        <form>
-            <h3>Add to List</h3>
-            <select name="status">
-                <option disabled selected>Status</option>
-                <option value="completed">Completed</option>
-                <option value="on_hold">On Hold</option>
-                <option value="plan_to_watch">Plan To Watch</option>
-                <option value="dropped">Dropped</option>
-            </select>
-
-            <select name="score">
-                <option disabled selected>Score</option>
-<% for(let x = 1; x <= 10; x++) { %>
-        <option value="<%= x %>"><%= x %></option>
-<% } %>
-            </select>
-
-            <input type="submit" value="Submit">
-        </form>
-
-        <h2>Sypnosis:</h2>
-        <p><%= data.synopsis %></p>
-    </div>
-
+<% if(loggedIn) { %> 
+            <form>
+                <h3>Add to List</h3>
+                <select name="status">
+                    <option disabled selected>Status</option>
+                    <option value="1">Watching</option>
+                    <option value="2">Completed</option>
+                    <option value="3">On Hold</option>
+                    <option value="4">Plan To Watch</option>
+                    <option value="5">Dropped</option>
+                </select>
     
+                <select name="score">
+                    <option disabled selected>Score</option>
+<% for(let x = 1; x <= 10; x++) { %>
+                    <option value="<%= x %>"><%= x %></option>
+<% } %>
+                </select>
+    
+                <input type="submit" value="Submit">
+            </form>
+<% } %> 
+        </div>
+
+        <div class="anime_info">
+            <h2>Title: <%= data.titles[0].title %> </h2>
+            <p>MyAnimeList Score: <%= data.score %></p>
+            <p>Genres: 
+<% data.genres.forEach(genre => { %>
+            <span><%= genre.name %>, </span>
+<% }) %> 
+            </p>
+            <p>Type: <%= data.type %></p>
+            <p>Status: <%= data.status %></p>
+            <p>Aired: <%= data.aired.string %></p>
+            <p>Synopsis:</p>
+            <p><%= data.synopsis %> </p>
+        </div>
+        
+    </div>
 </body>
+
+<script>
+    const form = document.querySelector('form');
+    const malID = JSON.parse('<%- JSON.stringify(data.mal_id) %>');
+    const title = JSON.parse('<%- JSON.stringify(data.titles[0].title) %>');
+
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const status = form.status.value;
+        const score = form.score.value;
+
+        try {
+            const response = await fetch('/anime_list', {
+                method: 'POST',
+                body: JSON.stringify({ status, score, malID, title }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+        } catch (error) {
+            
+        }
+    })
+</script>
 </html>

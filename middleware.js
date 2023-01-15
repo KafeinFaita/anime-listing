@@ -12,6 +12,14 @@ class Middleware {
             next();
         }
     }
+
+    authUser(req, res, next) {
+        if (req.session.loggedIn && req.session.user) {
+            next();
+        } else {
+            res.redirect('/');
+        }
+    }
 }
 
 module.exports = new Middleware;

@@ -2,6 +2,19 @@ const db = require('../config/db');
 const bcrypt = require('bcrypt');
 
 class UserModel {
+
+    async getOne(id) {
+        const sql = "SELECT * FROM users where id = ? LIMIT 1;";
+
+        try {
+            const [user, _] = await db.execute(sql, [id]);
+            if(user) return user[0];
+            
+        } catch (error) {
+            return error;
+        }
+    }
+    
     async createNew({ username, password, email }) {
         const sql = "INSERT INTO users (username, password, email, join_date) VALUES (?, ?, ?, NOW());";
         const errors = [];
