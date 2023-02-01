@@ -4,11 +4,13 @@ class Middleware {
             res.locals.loggedIn = true;
             res.locals.username = req.session.user.username;
             res.locals.email = req.session.user.email;
+            res.locals.id = req.session.user.id;
             next();
         } else {
             res.locals.loggedIn = false;
             res.locals.username = null;
             res.locals.email = null;
+            res.locals.id = null;
             next();
         }
     }

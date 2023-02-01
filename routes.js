@@ -18,9 +18,10 @@ router.get('/users/new', UserController.new);
 router.get('/users/:id', UserController.show)
 router.post('/users', Middleware.authUser, UserController.create);
 
+router.get('/anime', Middleware.getUser, AnimeController.index);
 router.get('/anime/:id', Middleware.getUser, AnimeController.show);
 
-router.get('/anime_list/:id', AnimeListController.show);
+router.get('/users/:id/anime_list', AnimeListController.show);
 router.post('/anime_list', AnimeListController.create);
 
 module.exports = router;

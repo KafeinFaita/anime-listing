@@ -17,7 +17,9 @@ class AnimeListController {
     async show(req, res) {
         try {
             const list = await AnimeList.get(req.params.id);
-            res.json(list)
+            // res.json(list)
+            console.log(list)
+            res.render('anime_list/index', { list })
         } catch (error) {
             
         }

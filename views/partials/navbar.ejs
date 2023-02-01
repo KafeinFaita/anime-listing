@@ -1,6 +1,7 @@
 <div class="user_bar">
 <% if (loggedIn) { %> 
     <p>Welcome, <%= username %>!</p>
+    <a href="/users/<%= id %>">Your Profile</a>
     <a href="/logout">Logout</a>
 <% } else { %> 
     <a href="/login">Login</a>
@@ -14,8 +15,17 @@
 
     <ul class="menu_links">
         <li><a href="/">Home</a></li>
-        <li><a>Anime</a></li>
+        <li class="dropdown_menu">
+            <p>Anime</p>
+            <ul class="dropdown_content">
+                <li><a href="/anime/top">Top Anime</a></li>
+                <li><a href="/anime/seasonal">Seasonal Anime</a></li>
+            </ul>
+        </li>
         <li><a>Manga</a></li>
         <li><a>About</a></li>
     </ul>
+
+    <input type="search" class="main_search">
+
 </div>

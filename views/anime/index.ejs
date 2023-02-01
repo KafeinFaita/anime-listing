@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head'); %> 
+<body>
+    <%- include('../partials/navbar'); %> 
+    <div>
+        <form>
+            <label for="type">Type</label>
+            <select name="type" id="type">
+                <option disabled selected>Select Anime Type</option>
+                <option value="tv">TV</option>
+                <option value="movie">Movie</option>
+                <option value="ova">OVA</option>
+                <option value="special">Special</option>
+                <option value="ona">ONA</option>
+                <option value="music">Music</option>
+            </select>
+
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option disabled selected>Select Anime Status</option>
+                <option value="airing">Airing</option>
+                <option value="complete">Complete</option>
+                <option value="upcoming">Upcoming</option>
+            </select>
+
+            <input type="submit" value="Submit">
+        </form>
+<% anime.forEach(an => { %>
+        <a href="/anime/<%- an.mal_id %>">
+            <img src="<%- an.images.jpg.image_url %>" alt="">
+        </a>
+<% }) %> 
+    </div>
+    <%- include('../partials/footer'); %> 
+</body>
+<script>
+     const anime = <%- JSON.stringify(anime) %>;
+
+</script>
+</html>
