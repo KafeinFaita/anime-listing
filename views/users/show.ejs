@@ -1,6 +1,29 @@
-<h1>PROFILE</h1>
+<!DOCTYPE html>
+<html lang="en">
+<%- include('../partials/head') %> 
+<body>
+    <%- include('../partials/navbar') %> 
+    <div class="content_body">
+        <h1>PROFILE</h1>
+        
+        <div class="profile_details">
+            <img src="https://icon-library.com/images/default-profile-icon/default-profile-icon-24.jpg" alt="" class="profile_picture">
 
-<p>Username: <%= profileUsername %></p>
-<p>Join Date: <%= profileJoinDate %></p>
+            <div>
+                <p>Username: <%= profileUsername %></p>
+                <p>Join Date: <%= profileJoinDate %></p>
+            </div>
+            
+        </div>
+        
 
-<a href="/users/<%= profileID %>/anime_list/ ">View <%= profileUsername %>'s anime list</a>
+        <div class="animelist_preview">
+            <p>test</p>
+        </div>
+
+        <a href="/users/<%= profileID %>/anime_list/ ">View <%= profileUsername %>'s full anime list</a>
+    </div>
+    
+</body>
+</html>
+

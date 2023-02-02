@@ -10,10 +10,10 @@ class AnimeModel {
         }
     }
 
-    async getAiring() {
+    async getMulti(url) {
         try {
-            const airingAnime = await axios.get('https://api.jikan.moe/v4/anime?status=airing&order_by=score&sort=desc&limit=10');
-            return airingAnime;
+            const anime = await axios.get(url);
+            return anime;
         } catch (error) {
             console.log(error)
         }

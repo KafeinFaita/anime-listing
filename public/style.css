@@ -108,12 +108,20 @@ body {
 
 /* login & signup */
 
+.login_main {
+    background-color: antiquewhite;
+}
+
 .login_main, .signup_main {
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
+    .login_main i {
+        margin-right: 5px;
+    }
 
     .login_error {
         color: red;
@@ -128,6 +136,7 @@ body {
         width: 300px;
         height: 400px;
         border: 2px solid black;
+        border-radius: 10px;
     }
 
         .login_main form input, .signup_main form input {
@@ -149,6 +158,22 @@ body {
             margin-top: 5px;
         }
 
+/* profile */
+
+.animelist_preview {
+    width: 100%;
+    border: 1px solid green;
+}
+
+.profile_details div {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.profile_picture {
+    width: 200px;
+    display: inline-block;
+}
    
 
     

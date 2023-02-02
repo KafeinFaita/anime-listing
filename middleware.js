@@ -1,4 +1,13 @@
 class Middleware {
+
+    redirectLoggedInUser(req, res, next) {
+        if (req.session.loggedIn && req.session.user) {
+            res.redirect('/');
+        } else {
+            next();
+        }
+    }
+
     getUser(req, res, next) {
         if (req.session.loggedIn && req.session.user) {
             res.locals.loggedIn = true;

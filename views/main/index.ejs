@@ -6,7 +6,9 @@
     <div class="home_main content_body">
         <h2>Top Airing</h2>
         <div class="owl-carousel">
-<% animeData.forEach(anime => { %>
+
+<!-- todo: break these into partials -->
+<% airingAnime.forEach(anime => { %>
             <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
                 <div class="anime_title">
                     <h3><a href="/anime/<%- anime.mal_id %>"><%- anime.titles[0].title %></a></h3>
@@ -15,6 +17,30 @@
             </div> 
 <% }) %> 
         </div>
+
+        <h2>Top Rated</h2>
+        <div class="owl-carousel">
+<% topAnime.forEach(anime => { %>
+            <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
+                <div class="anime_title">
+                    <h3><a href="/anime/<%- anime.mal_id %>"><%- anime.titles[0].title %></a></h3>
+                    <p>Score: <%- anime.score %></p>
+                </div>
+            </div> 
+<% }) %> 
+        </div>
+
+        <h2>Top Upcoming</h2>
+        <div class="owl-carousel">
+<% topUpcoming.forEach(anime => { %>
+            <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
+                <div class="anime_title">
+                    <h3><a href="/anime/<%- anime.mal_id %>"><%- anime.titles[0].title %></a></h3>
+                </div>
+            </div> 
+<% }) %> 
+        </div>
+
 
     </div>
     <%- include('../partials/footer') %>  
@@ -26,9 +52,26 @@
     $(document).ready(function(){
         $(".owl-carousel").owlCarousel({
             items: 5,
-            loop:false,
-            margin:10,
-            nav:true
+            loop: true,
+            margin: 10,
+            nav: true,
+            responsive: {
+                0: {
+                    items:1
+                },
+                600: {
+                    items:2
+                },
+                800: {
+                    items:3
+                },
+                1200: {
+                    items: 5
+                },
+                1900: {
+                    items: 7
+                }
+            }
         });
     });
 </script>

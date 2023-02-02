@@ -10,13 +10,13 @@ const AnimeListController = require('./controllers/AnimeLists');
 
 router.get('/', Middleware.getUser, MainController.index);
 
-router.get('/login', SessionController.index);
-router.post('/login', SessionController.create);
+router.get('/login', Middleware.redirectLoggedInUser, SessionController.index);
+router.post('/login', Middleware.redirectLoggedInUser, SessionController.create);
 router.get('/logout', SessionController.destroy);
 
-router.get('/users/new', UserController.new);
-router.get('/users/:id', UserController.show)
-router.post('/users', Middleware.authUser, UserController.create);
+router.get('/users/new', Middleware.redirectLoggedInUser, UserController.new);
+router.get('/users/:id', Middleware.getUser, UserController.show)
+router.post('/users', Middleware.redirectLoggedInUser, Middleware.authUser, UserController.create);
 
 router.get('/anime', Middleware.getUser, AnimeController.index);
 router.get('/anime/:id', Middleware.getUser, AnimeController.show);
