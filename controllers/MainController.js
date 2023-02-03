@@ -13,6 +13,10 @@ class MainController {
             console.log(error);
         }
     }
+
+    about(req, res) {
+        res.render('main/about');
+    }
 }
 
 module.exports = new MainController;

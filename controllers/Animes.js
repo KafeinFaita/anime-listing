@@ -24,6 +24,16 @@ class AnimeController {
         }
         
     }
+
+    async random(req, res) {
+        try {
+            const anime = await Anime.getRandom();
+            console.log(anime)
+            res.render('anime/show', { data: anime.data })
+        } catch (error) {
+            res.json(error);
+        }
+    }
 }
 
 module.exports = new AnimeController;

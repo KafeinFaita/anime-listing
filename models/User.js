@@ -19,6 +19,8 @@ class UserModel {
         const sql = "INSERT INTO users (username, password, email, join_date) VALUES (?, ?, ?, NOW());";
         const errors = [];
 
+        console.log('creating new user')
+
         try {
             if(username.length <= 6) {
                 errors.push('Username should have 7 or more characters');

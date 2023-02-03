@@ -19,6 +19,10 @@ body {
         display: inline-block;
     }
 
+    .user_bar a {
+        color: white;
+    }
+
 
 .navbar {
     display: flex;
@@ -37,6 +41,17 @@ body {
             margin-left: 15px;
             font-size: 20px;
         }
+
+        .menu_links a {
+            text-decoration: none;
+            padding: 0 10px;
+            color: #004680;
+        }
+
+        .menu_links .active {
+            background-color: #004680;
+            color: white;
+          }
 
         .dropdown_menu {
             position: relative;
@@ -83,7 +98,7 @@ body {
             margin: 10px;
             border-radius: 30px;
             overflow: hidden;
-            display: flex;
+            display: inline-flex;
             align-items: flex-end;
         }
 

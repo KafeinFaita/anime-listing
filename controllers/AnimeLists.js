@@ -1,4 +1,6 @@
 const AnimeList = require("../models/AnimeList");
+const User = require("../models/User");
+
 
 class AnimeListController {
 
@@ -17,9 +19,9 @@ class AnimeListController {
     async show(req, res) {
         try {
             const list = await AnimeList.get(req.params.id);
-            // res.json(list)
-            console.log(list)
-            res.render('anime_list/index', { list })
+            const user = await User.getOne(req.params.id);
+            console.log(user)
+            res.render('anime_list/index', { list, user: { username: user.username, id: user.id } })
         } catch (error) {
             
         }
