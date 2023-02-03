@@ -1,5 +1,6 @@
 const { default: axios } = require('axios');
 const Anime = require('../models/Anime');
+const AnimeList = require('../models/AnimeList');
 
 class AnimeController {
 
@@ -18,9 +19,18 @@ class AnimeController {
     async show(req, res) {
         try {
             const anime = await Anime.getOne(req.params.id);
-            res.render('anime/show', { data: anime.data })
+            let animeList = null;
+
+            // get user's anime list if they're logged in
+            if (req.session.loggedIn) {
+                animeList = await AnimeList.get(req.session.user.id);
+            }
+
+            console.log(animeList)
+
+            res.render('anime/show', { anime: anime.data, list: animeList })
         } catch (error) {
-            res.json(error)
+            res.json(error);
         }
         
     }
@@ -28,8 +38,7 @@ class AnimeController {
     async random(req, res) {
         try {
             const anime = await Anime.getRandom();
-            console.log(anime)
-            res.render('anime/show', { data: anime.data })
+            res.redirect(`/anime/${anime.data.mal_id}`)
         } catch (error) {
             res.json(error);
         }

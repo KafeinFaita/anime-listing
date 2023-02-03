@@ -7,7 +7,6 @@ const UserController = require('./controllers/Users');
 const AnimeController = require('./controllers/Animes');
 const SessionController = require('./controllers/Sessions');
 const AnimeListController = require('./controllers/AnimeLists');
-const Anime = require('./models/Anime');
 
 router.get('/', Middleware.getUser, MainController.index);
 router.get('/about', Middleware.getUser, MainController.about)

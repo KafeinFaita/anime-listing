@@ -7,7 +7,7 @@
 
     <div class="content_body anime_content_body">
         <div class="anime_side">
-            <img src="<%= data.images.jpg.image_url %> " alt="">
+            <img src="<%= anime.images.jpg.image_url %> " alt="">
 
 <% if(loggedIn) { %> 
             <form>
@@ -34,18 +34,18 @@
         </div>
 
         <div class="anime_info">
-            <h2>Title: <%= data.titles[0].title %> </h2>
-            <p>MyAnimeList Score: <%= data.score %></p>
+            <h2>Title: <%= anime.titles[0].title %> </h2>
+            <p>MyAnimeList Score: <%= anime.score %></p>
             <p>Genres: 
-<% data.genres.forEach(genre => { %>
+<% anime.genres.forEach(genre => { %>
             <span><%= genre.name %>, </span>
 <% }) %> 
             </p>
-            <p>Type: <%= data.type %></p>
-            <p>Status: <%= data.status %></p>
-            <p>Aired: <%= data.aired.string %></p>
+            <p>Type: <%= anime.type %></p>
+            <p>Status: <%= anime.status %></p>
+            <p>Aired: <%= anime.aired.string %></p>
             <p>Synopsis:</p>
-            <p><%= data.synopsis %> </p>
+            <p><%= anime.synopsis %> </p>
         </div>
         
     </div>
@@ -53,8 +53,34 @@
 
 <script>
     const form = document.querySelector('form');
-    const malID = JSON.parse('<%- JSON.stringify(data.mal_id) %>');
-    const title = JSON.parse('<%- JSON.stringify(data.titles[0].title) %>');
+    const animeList = <%- JSON.stringify(list) %>
+    const malID = JSON.parse('<%- JSON.stringify(anime.mal_id) %>');
+    const title = JSON.parse('<%- JSON.stringify(anime.titles[0].title) %>');
+
+    // check if anime already exists in a logged in user's anime list
+    if (animeList !== null) {
+        const currentAnime = animeList.find(anime => anime.mal_id === malID);
+        const addFormTitle = document.querySelector('form h3');
+
+        if (currentAnime) {
+            addFormTitle.innerHTML = "Update Anime Status";
+
+            // reusable function to loop through the options
+            const checkOptions = (selectElement, value) => {
+                const options = selectElement.options;
+                for (let x = 0; x < options.length; x++) {
+                    if (options[x].text == value) {
+                        options[x].selected = true;
+                        break;
+                    }
+                }
+            }
+
+            // selects the respective option according to user's existing record in the database
+            checkOptions(form.status, currentAnime.status_name);
+            checkOptions(form.score, currentAnime.score);
+        }
+    }
 
     form.addEventListener('submit', async e => {
         e.preventDefault();

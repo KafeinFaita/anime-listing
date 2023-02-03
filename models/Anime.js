@@ -12,7 +12,15 @@ class AnimeModel {
 
     async getRandom() {
         try {
-            const anime = await axios.get(`https://api.jikan.moe/v4/random/anime`);
+            let anime = await axios.get(`https://api.jikan.moe/v4/random/anime`);
+
+            console.log(anime.data.data.rating)
+
+            // filter out nsfw results
+            while (anime.data.data.rating === "R+ - Mild Nudity" || anime.data.data.rating === "Rx - Hentai") {
+                anime = await axios.get(`https://api.jikan.moe/v4/random/anime`);
+            }
+
             return anime.data;
         } catch (error) {
             console.log(error)
