@@ -22,6 +22,19 @@ class AnimeListModel {
             
         }
     }
+
+    async update(status, score, malID, userID) {
+        const sql = "UPDATE anime_lists SET status_id = ?, score = ?, date_modified = NOW() WHERE user_id = ? AND mal_id = ?;";
+
+        try {
+            const [list, _] = await db.execute(sql, [status, score, userID, malID]);
+            return list;
+        } catch (error) {
+            
+        }
+    }
+
+    
 }
 
 module.exports = new AnimeListModel;

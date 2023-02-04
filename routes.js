@@ -25,6 +25,7 @@ router.get('/random', Middleware.getUser, AnimeController.random);
 
 router.get('/users/:id/anime_list', Middleware.getUser, AnimeListController.show);
 router.post('/anime_list', AnimeListController.create);
+router.put('/users/:id/anime_list/edit', AnimeListController.edit);
 
 module.exports = router;
 

@@ -56,6 +56,7 @@
     const animeList = <%- JSON.stringify(list) %>
     const malID = JSON.parse('<%- JSON.stringify(anime.mal_id) %>');
     const title = JSON.parse('<%- JSON.stringify(anime.titles[0].title) %>');
+    let userHasAnimeOnList = false;
 
     // check if anime already exists in a logged in user's anime list
     if (animeList !== null) {
@@ -64,6 +65,7 @@
 
         if (currentAnime) {
             addFormTitle.innerHTML = "Update Anime Status";
+            userHasAnimeOnList = true;
 
             // reusable function to loop through the options
             const checkOptions = (selectElement, value) => {
@@ -89,8 +91,13 @@
         const score = form.score.value;
 
         try {
-            const response = await fetch('/anime_list', {
-                method: 'POST',
+            // values change depending if a user is logged in and if the anime already exists ovn their list
+            const userID = animeList ? <%- JSON.stringify(id) %> : null;
+            const method = animeList && userHasAnimeOnList ? 'PUT' : 'POST';
+            const url = animeList && userHasAnimeOnList ? `/users/${userID}/anime_list/edit` : '/anime_list';
+
+            const response = await fetch(url, {
+                method: method,
                 body: JSON.stringify({ status, score, malID, title }),
                 headers: { 'Content-Type': 'application/json' }
             });

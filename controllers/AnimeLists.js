@@ -26,6 +26,16 @@ class AnimeListController {
             
         }
     }
+
+    async edit(req, res) {
+        try {
+            const { status, score, malID } = req.body;
+            const list = await AnimeList.update(status, score, malID, req.session.user.id);
+            res.json();
+        } catch (error) {
+            
+        }
+    }
 }
 
 module.exports = new AnimeListController;
