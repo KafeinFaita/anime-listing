@@ -6,36 +6,32 @@
 
     <!-- fullwidth slider -->
 
-    <div class="slider">
-        <div class="slide">
-            <img src="https://www.mmobyte.tv/wp-content/uploads/2020/07/sinoalice-817x320.jpg" alt="Slide 1">
-            <div class="slide-content">
-                <h1>Slide 1</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="https://www.mmobyte.tv/wp-content/uploads/2020/07/sinoalice-817x320.jpg" alt="Slide 2">
-            <div class="slide-content">
-                <h1>Slide 2</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-        </div>
-        <div class="slide">
-            <img src="https://www.mmobyte.tv/wp-content/uploads/2020/07/sinoalice-817x320.jpg" alt="Slide 3">
-            <div class="slide-content">
-                <h1>Slide 3</h1>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            </div>
-            </div>
-        </div>
+    <div class="slider owl-carousel owl-theme">
+ <% for(let x = 0; x < 3; x++) { %> 
+        <div class="item">
+            <div class="slider_background" style="background-image: linear-gradient(rgba(0, 0, 0, 0.63), rgba(0, 0, 0, 0.623)), url('<%= airingAnime[x].trailer.images.maximum_image_url %>');"></div>
+            <div class="slider_content">
+                <div class="slider_content_text">
+<% airingAnime[x].genres.forEach(genre => { %>
+                    <span class="genre"><%= genre.name %></span>
+<% }) %>    
+                    <h1><%= airingAnime[x].title %></h1>
+                    <p class="slider_synopsis"><%= airingAnime[x].synopsis %></p>
+                    <p class="slider_button"><a href="/anime/<%= airingAnime[x].mal_id %>">View Details</a></p>
+                </div>
+                <iframe src="<%= airingAnime[x].trailer.embed_url %>" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-        <button id="prev" class="arrow prev">&lt;</button>
-        <button id="next" class="arrow next">&gt;</button>
+            </div>
+            
+        </div>
+<% } %>   
+    </div>
+
+    
 
     <div class="home_main content_body">
         <h2>Top Airing</h2>
-        <div class="owl-carousel">
+        <div class="owl-carousel featured-carousel">
 <!-- todo: break these into partials -->
 <% airingAnime.forEach(anime => { %>
             <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
@@ -48,7 +44,7 @@
         </div>
 
         <h2>Top Rated</h2>
-        <div class="owl-carousel">
+        <div class="owl-carousel featured-carousel">
 <% topAnime.forEach(anime => { %>
             <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
                 <div class="anime_title">
@@ -60,7 +56,7 @@
         </div>
 
         <h2>Top Upcoming</h2>
-        <div class="owl-carousel">
+        <div class="owl-carousel featured-carousel">
 <% topUpcoming.forEach(anime => { %>
             <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
                 <div class="anime_title">
@@ -79,7 +75,7 @@
 <script>
     // for the anime carousel
     $(document).ready(function(){
-        $(".owl-carousel").owlCarousel({
+        $(".featured-carousel").owlCarousel({
             items: 5,
             loop: true,
             margin: 10,
@@ -103,29 +99,21 @@
             }
         });
 
-        // slider animation
+        $(".slider").owlCarousel({
+ 
+            navigation : true, // Show next and prev buttons
 
-        var currentIndex = 0;
-        var slides = $('.slide');
-        var slideCount = slides.length;
+            slideSpeed : 300,
+            paginationSpeed : 400,
 
-        function nextSlide() {
-            slides.eq(currentIndex).fadeOut();
-            currentIndex = (currentIndex + 1) % slideCount;
-            slides.eq(currentIndex).fadeIn();
-        }
+            items : 1, 
+            itemsDesktop : false,
+            itemsDesktopSmall : false,
+            itemsTablet: false,
+            itemsMobile : false
 
-        function prevSlide() {
-            slides.eq(currentIndex).fadeOut();
-            currentIndex = (currentIndex - 1 + slideCount) % slideCount;
-            slides.eq(currentIndex).fadeIn();
-        }
+        });
 
-        slides.eq(currentIndex).fadeIn();
-        setInterval(nextSlide, 5000);
-
-        $('#next').on('click', nextSlide);
-        $('#prev').on('click', prevSlide);
     });
 </script>
 </html>
