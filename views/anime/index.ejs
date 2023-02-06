@@ -27,21 +27,88 @@
     
                 <input type="submit" value="Submit">
             </form>
+            <div class="anime_main">
 <% anime.forEach(anime => { %>
-            <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
-                <div class="anime_title">
-                    <h3><a href="/anime/<%- anime.mal_id %>"><%- anime.titles[0].title %></a></h3>
-                    <p>Score: <%- anime.score %></p>
-                </div>
-            </div> 
+                <div class="anime_card" style="background-image: url('<%- anime.images.jpg.image_url %>');">
+                    <div class="anime_title">
+                        <h3><a href="/anime/<%- anime.mal_id %>"><%- anime.titles[0].title %></a></h3>
+                        <p>Score: <%- anime.score %></p>
+                    </div>
+                </div> 
 <% }) %> 
+            </div>
+
         </div>
+
+        <div class="pagination_container">
+            <div class="anime_pagination"></div>
+        </div>
+        
     </div>
         
     <%- include('../partials/footer'); %> 
 </body>
+<!-- simplePagination.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js" integrity="sha512-9Dh726RTZVE1k5R1RNEzk1ex4AoRjxNMFKtZdcWaG2KUgjEmFYN3n17YLUrbHm47CRQB1mvVBHDFXrcnx/deDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
 <script>
-     const anime = <%- JSON.stringify(anime) %>;
+    
+
+    $(document).ready(function() {
+        $('form').submit(function(e) {
+            e.preventDefault();
+            let formData = {
+                type: $('#type').val(),
+                status: $('#status').val()
+            };
+            let queryString = $.param(formData);
+            window.history.pushState({}, '', `${window.location.pathname}?${queryString}`);
+        });
+
+        $('.anime_pagination').pagination({
+            items: 100,
+            itemsOnPage: 10,
+            cssStyle: "light-theme",
+            prevText: "&laquo;",
+            nextText: "&raquo;",
+            hrefTextPrefix: '',
+            onPageClick: (pageNum, event) => {
+                event.preventDefault();
+                let url = new URL(window.location.href);
+                let params = new URLSearchParams(url.search.slice(1));
+                params.set("page", pageNum);
+                url.search = params.toString();
+                window.history.pushState({}, "", url.toString());
+
+                $.ajax({
+                    url: window.location.href,
+                    type: 'GET',
+                    headers: {
+                        'Token': 'valid'
+                    },
+                    beforeSend: function(xhr) {
+                        console.log(xhr.getAllResponseHeaders());
+                    },
+                    success: (response) => {
+                        let $animeCard = $('.anime_card:first').clone();
+                        $('.anime_card').remove();
+
+                        response.forEach(anime => {
+                            let $newAnimeCard = $animeCard.clone();                            $newAnimeCard.css('background-image', `url('${anime.images.jpg.image_url}')`);
+                            $newAnimeCard.find('a').attr('href', `/anime/${anime.mal_id}`);
+                            $newAnimeCard.find('a').text(anime.titles[0].title);
+                            $newAnimeCard.find('p').text(anime.score);
+                            
+                            $('.anime_main').append($newAnimeCard);
+                        })
+                    }
+                })
+                
+            }
+        });
+    });
 
 </script>
 </html>

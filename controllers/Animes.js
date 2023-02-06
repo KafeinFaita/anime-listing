@@ -6,11 +6,18 @@ class AnimeController {
 
     async index(req, res) {
         try {
-            if (req.query !== {}) {
-                const anime = await axios.get('https://api.jikan.moe/v4/top/anime');
-                console.log(anime.data.data.length)
+            let anime;
+            // runs if the user accessed the link by clicking the pagination or filters
+            if (req.headers.token && req.headers.token === 'valid') {
+                anime = await axios.get(`https://api.jikan.moe/v4/top/anime?page=${req.query.page}`);
+                console.log('token verified')
+                res.json(anime.data.data)
+            // runs by directly accessing the link or by refreshing
+            } else {
+                anime = await axios.get('https://api.jikan.moe/v4/top/anime');
+                console.log('no token')
                 res.render('anime/index', { anime: anime.data.data });
-            }
+            }    
         } catch (error) {
             
         }

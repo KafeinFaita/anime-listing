@@ -27,6 +27,23 @@ class AnimeModel {
         }
     }
 
+    async get(query) {
+        let anime;
+
+        if (query) {
+            let url = 'https://api.jikan.moe/v4/top/anime?';
+            for (let key in val) {
+                url += `${key}=${val}&`;
+            }
+            url = url.slice(0, -1);
+            anime = await axios.get(url);
+            
+        } else {
+            anime = await axios.get('https://api.jikan.moe/v4/top/anime');
+        } 
+        return anime;
+    }
+
     async getMulti(url) {
         try {
             const anime = await axios.get(url);
