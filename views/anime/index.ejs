@@ -65,6 +65,31 @@
             };
             let queryString = $.param(formData);
             window.history.pushState({}, '', `${window.location.pathname}?${queryString}`);
+
+            $.ajax({
+                url: window.location.href,
+                type: 'GET',
+                headers: {
+                    'Token': 'valid'
+                },
+                beforeSend: function(xhr) {
+                    console.log(xhr.getAllResponseHeaders());
+                },
+                success: (response) => {
+                    let $animeCard = $('.anime_card:first').clone();
+                    $('.anime_card').remove();
+
+                    response.forEach(anime => {
+                        let $newAnimeCard = $animeCard.clone();                            $newAnimeCard.css('background-image', `url('${anime.images.jpg.image_url}')`);
+                        $newAnimeCard.find('a').attr('href', `/anime/${anime.mal_id}`);
+                        $newAnimeCard.find('a').text(anime.titles[0].title);
+                        $newAnimeCard.find('p').text(anime.score);
+                        
+                        $('.anime_main').append($newAnimeCard);
+                    })
+                }
+            })   
+
         });
 
         $('.anime_pagination').pagination({

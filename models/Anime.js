@@ -29,13 +29,17 @@ class AnimeModel {
 
     async get(query) {
         let anime;
+        console.log(query)
 
         if (query) {
             let url = 'https://api.jikan.moe/v4/top/anime?';
-            for (let key in val) {
-                url += `${key}=${val}&`;
+            console.log(url)
+            for (let key in query) {
+                console.log(key + " " + query[key])
+                url += `${key}=${query[key]}&`;
             }
             url = url.slice(0, -1);
+            console.log(url)
             anime = await axios.get(url);
             
         } else {
