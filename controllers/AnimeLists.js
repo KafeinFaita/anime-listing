@@ -31,7 +31,7 @@ class AnimeListController {
         try {
             const { status, score, malID } = req.body;
             const list = await AnimeList.update(status, score, malID, req.session.user.id);
-            res.json();
+            res.json({ success: true });
         } catch (error) {
             
         }
