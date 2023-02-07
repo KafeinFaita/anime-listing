@@ -11,7 +11,9 @@ app.use(session({
     saveUninitialized: true,
     cookie: { 
         httpOnly: true,
-        maxAge: 30 * 24 * 60 * 60 * 1000
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+        sameSite: process.env.NODE_ENV === "production" ? 'none' : 'lax', // must be 'none' to enable cross-site delivery
+        secure: process.env.NODE_ENV === "production", // must be true if sameSite='none'
      }
 }));
 
@@ -26,6 +28,3 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log("Listening on port " + port);
 })
-
-// database connection below
-// DATABASE_URL='mysql://mnw2xwm0puko4vpnk8mm:pscale_pw_Eh73SGUetQnHBZB8xUJVUqMUVC3kKsMmEkVhth87sEz@ap-southeast.connect.psdb.cloud/anime-listing?ssl={"rejectUnauthorized":true}'

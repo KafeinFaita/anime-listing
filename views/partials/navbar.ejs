@@ -12,6 +12,7 @@
 
 <div class="navbar">
     <h1>LOGO</h1>
+    <input type="search" class="main_search" placeholder="Search anime" />
     <ul class="menu_links">
         <li><a href="/">Home</a></li>
         <li class="dropdown_menu">
@@ -24,9 +25,41 @@
         <li><a href="/random">Random</a></li>
         <li><a href="/about">About</a></li>
     </ul>
-
-    <input type="search" class="main_search">
 </div>
 
-<script src="/scripts/search.js"></script>
 <script src="/scripts/navbar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+
+<!-- script for the search autocomplete -->
+<script>
+    $(".main_search").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                type: "GET",
+                url: "https://api.jikan.moe/v4/anime?q=" + request.term,
+                dataType: "json",
+                success: data => {
+                    console.log(data)
+                    if (data.data.length > 0) {
+                        response(data.data.map(anime => {
+                        return {
+                            label: anime.title,
+                            url: `/anime/${anime.mal_id}`
+                        }}));
+                    } else {
+                        response([{ label: "No results found", value: "" }]);
+                    }    
+                }
+            });
+        },
+        select: function(event, ui) {
+            if (ui.item.url) {
+                window.location.href = ui.item.url;
+            } else {
+                return false;
+            }
+            
+        }
+    });
+</script>

@@ -16,3 +16,5 @@ searchBar.addEventListener('keyup', e => {
         
     }, 500)
 })
+
+

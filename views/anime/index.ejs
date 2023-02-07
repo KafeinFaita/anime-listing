@@ -17,15 +17,7 @@
                     <option value="music">Music</option>
                 </select>
     
-                <label for="status">Status</label>
-                <select name="status" id="status">
-                    <option disabled selected>Select Anime Status</option>
-                    <option value="airing">Airing</option>
-                    <option value="complete">Complete</option>
-                    <option value="upcoming">Upcoming</option>
-                </select>
-    
-                <input type="submit" value="Submit">
+                
             </form>
             <div class="anime_main">
 <% anime.forEach(anime => { %>
@@ -49,46 +41,50 @@
     <%- include('../partials/footer'); %> 
 </body>
 <!-- simplePagination.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simplePagination.js/1.6/jquery.simplePagination.min.js" integrity="sha512-9Dh726RTZVE1k5R1RNEzk1ex4AoRjxNMFKtZdcWaG2KUgjEmFYN3n17YLUrbHm47CRQB1mvVBHDFXrcnx/deDA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 <script>
-    
+    // GET function for the pagination and filter form
+    const handleQuery = () => {
+        $.ajax({
+            url: window.location.href,
+            type: 'GET',
+            headers: {
+                // to make sure that the user clicked the query controls instead of accessing the url directly
+                'Token': 'valid'
+            },
+            beforeSend: function(xhr) {
+                console.log(xhr.getAllResponseHeaders());
+            },
+            success: (response) => {
+                let $animeCard = $('.anime_card:first').clone();
+                $('.anime_card').remove();
+
+                response.forEach(anime => {
+                    let $newAnimeCard = $animeCard.clone();                            
+                    $newAnimeCard.css('background-image', `url('${anime.images.jpg.image_url}')`);
+                    $newAnimeCard.find('a').attr('href', `/anime/${anime.mal_id}`);
+                    $newAnimeCard.find('a').text(anime.titles[0].title);
+                    $newAnimeCard.find('p').text(anime.score);
+                    
+                    $('.anime_main').append($newAnimeCard);
+                })
+            }
+        })   
+    }
 
     $(document).ready(function() {
-        $('form').submit(function(e) {
+        $('form #type').change(function(e) {
             e.preventDefault();
             let formData = {
-                type: $('#type').val(),
-                status: $('#status').val()
+                type: $('#type').val()
             };
             let queryString = $.param(formData);
             window.history.pushState({}, '', `${window.location.pathname}?${queryString}`);
 
-            $.ajax({
-                url: window.location.href,
-                type: 'GET',
-                headers: {
-                    'Token': 'valid'
-                },
-                beforeSend: function(xhr) {
-                    console.log(xhr.getAllResponseHeaders());
-                },
-                success: (response) => {
-                    let $animeCard = $('.anime_card:first').clone();
-                    $('.anime_card').remove();
-
-                    response.forEach(anime => {
-                        let $newAnimeCard = $animeCard.clone();                            $newAnimeCard.css('background-image', `url('${anime.images.jpg.image_url}')`);
-                        $newAnimeCard.find('a').attr('href', `/anime/${anime.mal_id}`);
-                        $newAnimeCard.find('a').text(anime.titles[0].title);
-                        $newAnimeCard.find('p').text(anime.score);
-                        
-                        $('.anime_main').append($newAnimeCard);
-                    })
-                }
-            })   
+            handleQuery(); 
 
         });
 
@@ -107,30 +103,7 @@
                 url.search = params.toString();
                 window.history.pushState({}, "", url.toString());
 
-                $.ajax({
-                    url: window.location.href,
-                    type: 'GET',
-                    headers: {
-                        'Token': 'valid'
-                    },
-                    beforeSend: function(xhr) {
-                        console.log(xhr.getAllResponseHeaders());
-                    },
-                    success: (response) => {
-                        let $animeCard = $('.anime_card:first').clone();
-                        $('.anime_card').remove();
-
-                        response.forEach(anime => {
-                            let $newAnimeCard = $animeCard.clone();                            $newAnimeCard.css('background-image', `url('${anime.images.jpg.image_url}')`);
-                            $newAnimeCard.find('a').attr('href', `/anime/${anime.mal_id}`);
-                            $newAnimeCard.find('a').text(anime.titles[0].title);
-                            $newAnimeCard.find('p').text(anime.score);
-                            
-                            $('.anime_main').append($newAnimeCard);
-                        })
-                    }
-                })
-                
+                handleQuery();
             }
         });
     });

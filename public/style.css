@@ -273,4 +273,18 @@ body {
         text-decoration: none;
     }
 
+/* search bar */
+.ui-autocomplete {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.main_search {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid gray;
+    width: 40%;
+    font-size: 16px;
+   
+}
 
