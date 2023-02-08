@@ -4,8 +4,14 @@
 <body>
     <%- include('../partials/navbar'); %> 
     <div class="content_body">
+        <select id="anime_list_sort">
+            <option disabled selected>Sort by:</option>
+            <option value="name">Name</option>
+            <option value="score">Score</option>
+            <option value="status">Status</option>
+        </select>
         <h1>Viewing <a href="/users/<%= user.id %> "><%= user.username %></a>'s anime list </h1>
-        <table>
+        <table class="anime_list_table">
             <thead>
                 <th>Anime Title</th>
                 <th>Status</th>
@@ -13,8 +19,8 @@
                 <th>Action</th>
             </thead>
 <% list.forEach(li => { %>
-            <tr>
-                <td><a href="/anime/<%= li.mal_id %> "><%= li.anime_title %></a></td>
+            <tr class="anime_list_table_row">
+                <td><a href="/anime/<%= li.mal_id %>"><%= li.anime_title %></a></td>
                 <td><%= li.status_name %></td>
                 <td><%= li.score %></td>
                 <td><p>TEST</p></td>
@@ -24,6 +30,32 @@
     </div>
 </body>
 <script>
-    // console.log(list)
+    let list = <%- JSON.stringify(list) %>;
+
+    // code for sorting table
+    $('#anime_list_sort').change(() => {
+        if ($('#anime_list_sort').val() === 'score') {
+            list.sort((a, b) => b.score - a.score);
+        } else if ($('#anime_list_sort').val() === 'name') {
+            list.sort((a, b) => a.anime_title.localeCompare(b.anime_title));
+        } else if ($('#anime_list_sort').val() === 'status') {
+            list.sort((a, b) => a.status_name.localeCompare(b.status_name));
+        }
+
+        $('.anime_list_table .anime_list_table_row').remove();
+
+        list.forEach(li => {
+            const $tr = $('<tr class="anime_list_table_row"></tr>');
+            $tr.append(`
+                <td>${li.anime_title}</td>
+                <td>${li.status_name}</td>
+                <td>${li.score}</td>
+                <td><p>TEST</p></td>
+            `);
+            $('.anime_list_table').append($tr);
+        })
+    });
+
+
 </script>
 </html>

@@ -20,7 +20,7 @@ class AnimeListController {
         try {
             const list = await AnimeList.get(req.params.id);
             const user = await User.getOne(req.params.id);
-            console.log(user)
+            console.log(list)
             res.render('anime_list/index', { list, user: { username: user.username, id: user.id } })
         } catch (error) {
             
