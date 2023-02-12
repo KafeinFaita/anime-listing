@@ -1,4 +1,4 @@
-<div class="user_bar">
+<div class="user_bar color_theme">
 <% if (loggedIn) { %> 
     <p>Welcome, <%= username %>!</p>
     <a href="/users/<%= id %>">Your Profile</a>
@@ -14,16 +14,16 @@
     <h1>LOGO</h1>
     <input type="search" class="main_search" placeholder="Search anime" />
     <ul class="menu_links">
-        <li><a href="/">Home</a></li>
+        <li><a href="/" class="color_theme_text">Home</a></li>
         <li class="dropdown_menu">
-            <a href="/anime">Anime</a>
+            <a href="/anime" class="color_theme_text">Anime</a>
             <!-- <ul class="dropdown_content">
                 <li><a href="/anime/top">Top Anime</a></li>
                 <li><a href="/anime/seasonal">Seasonal Anime</a></li>
             </ul> -->
         </li>
-        <li><a href="/random">Random</a></li>
-        <li><a href="/about">About</a></li>
+        <li><a href="/random" class="color_theme_text">Random</a></li>
+        <li><a href="/about" class="color_theme_text">About</a></li>
     </ul>
 </div>
 

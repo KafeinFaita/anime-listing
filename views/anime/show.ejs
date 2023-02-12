@@ -32,28 +32,49 @@
             </form>
             <p class="list_success_msg"></p>
 <% } %> 
+
+            <div class="anime_info">
+                <p><span>Score:</span> <%= anime.score %></p>
+                <p><span>Type:</span> <%= anime.type %></p>
+                <p><span>Status:</span> <%= anime.status %></p>
+                <p><span>Aired:</span> <%= anime.aired.string %></p>
+                <p><span>Rating:</span> <%= anime.rating %></p>
+                <p><span>Season Premiered:</span> <%= anime.season %> <%= anime.year %></p>
+            </div>
         </div>
 
-        <div class="anime_info">
-            <h2>Title: <%= anime.titles[0].title %> </h2>
-            <p>MyAnimeList Score: <%= anime.score %></p>
-            <p>Genres: 
+        <div class="anime_header">
+            <h1><%= anime.titles[0].title %> </h1>
 <% anime.genres.forEach(genre => { %>
-            <span><%= genre.name %>, </span>
+            <span class="anime_header_genre"><%= genre.name %></span>
 <% }) %> 
-            </p>
-            <p>Type: <%= anime.type %></p>
-            <p>Status: <%= anime.status %></p>
-            <p>Aired: <%= anime.aired.string %></p>
-            <p>Synopsis:</p>
-            <p><%= anime.synopsis %> </p>
+            
+            <h2>Synopsis:</h2>
+            <p><%= anime.synopsis %></p>
+
+            
+
+            <div class="anime_reviews">
+                <h2>Reviews</h2>
+                <p>No reviews for now! Be the first to review this anime.</p>
+                <form>
+                    <label for="subject">Subject:</label>
+                    <input type="text" name="subject" id="subject">
+                    
+                    <label for="content">Content</label>
+                    <textarea name="content" id="content"></textarea>
+
+                    <input type="submit" value="Submit Review">
+                </form>
+            </div>
         </div>
         
     </div>
 </body>
 
 <script>
-    const form = document.querySelector('form');
+    const form = document.querySelector('.anime_side form');
+    const reviewForm = document.querySelector('.anime_reviews form');
     const animeList = <%- JSON.stringify(list) %>
     const malID = JSON.parse('<%- JSON.stringify(anime.mal_id) %>');
     const title = JSON.parse('<%- JSON.stringify(anime.titles[0].title) %>');
@@ -115,6 +136,21 @@
         } catch (error) {
             
         }
+    })
+
+    reviewForm.addEventListener('submit', async e => {
+        e.preventDefault();
+
+        const subject = reviewForm.subject.value;
+        const content = reviewForm.content.value;
+
+        const response = await fetch(`/anime/${malID}`,{
+            method: "POST",
+            body: JSON.stringify({ malID, subject, content }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+        const data = await response.json();
+        console.log(data)
     })
 </script>
 </html>

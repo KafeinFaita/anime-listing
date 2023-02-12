@@ -7,6 +7,7 @@ const UserController = require('./controllers/Users');
 const AnimeController = require('./controllers/Animes');
 const SessionController = require('./controllers/Sessions');
 const AnimeListController = require('./controllers/AnimeLists');
+const ReviewController = require('./controllers/Reviews');
 
 router.get('/', Middleware.getUser, MainController.index);
 router.get('/about', Middleware.getUser, MainController.about)
@@ -22,6 +23,8 @@ router.post('/users', Middleware.redirectLoggedInUser, UserController.create);
 router.get('/anime', Middleware.getUser, AnimeController.index);
 router.get('/anime/:id', Middleware.getUser, AnimeController.show);
 router.get('/random', Middleware.getUser, AnimeController.random);
+
+router.post('/anime/:id', Middleware.authUser, ReviewController.create);
 
 router.get('/users/:id/anime_list', Middleware.getUser, AnimeListController.show);
 router.post('/anime_list', AnimeListController.create);

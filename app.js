@@ -28,3 +28,13 @@ const port = process.env.PORT || 8000;
 app.listen(port, () => {
     console.log("Listening on port " + port);
 })
+
+
+/*
+to-dos:
+1. hide anime review form when user is not logged in.
+2. when a user has already submitted a review to an anime, he can't submit a new review
+3. display anime user reviews. Display a message saying there are no reviews if, well, there are no reviews
+4. clean up console.logs and fix error handling for database queries
+5. make whole app responsive
+*/

@@ -13,11 +13,11 @@
             <div class="slider_content">
                 <div class="slider_content_text">
 <% airingAnime[x].genres.forEach(genre => { %>
-                    <span class="genre"><%= genre.name %></span>
+                    <span class="genre color_theme"><%= genre.name %></span>
 <% }) %>    
                     <h1><%= airingAnime[x].title %></h1>
                     <p class="slider_synopsis"><%= airingAnime[x].synopsis %></p>
-                    <p class="slider_button"><a href="/anime/<%= airingAnime[x].mal_id %>">View Details</a></p>
+                    <p class="slider_button color_theme"><a href="/anime/<%= airingAnime[x].mal_id %>">View Details</a></p>
                 </div>
                 <iframe src="<%= airingAnime[x].trailer.embed_url %>" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
@@ -26,8 +26,6 @@
         </div>
 <% } %>   
     </div>
-
-    
 
     <div class="home_main content_body">
         <h2>Top Airing</h2>
@@ -94,7 +92,7 @@
                     items: 5
                 },
                 1900: {
-                    items: 7
+                    items: 6
                 }
             }
         });

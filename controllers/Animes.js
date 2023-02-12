@@ -9,14 +9,12 @@ class AnimeController {
             let anime;
             // runs if the user accessed the link by clicking the pagination or filters
             if (req.headers.token && req.headers.token === 'valid') {
-                console.log(req.query)
                 anime = await Anime.get(req.query)
                 
                 res.json(anime.data.data)
             // runs by directly accessing the link or by refreshing
             } else {
                 anime = await Anime.get();
-                console.log('no token')
                 res.render('anime/index', { anime: anime.data.data });
             }    
         } catch (error) {
@@ -33,8 +31,6 @@ class AnimeController {
             if (req.session.loggedIn) {
                 animeList = await AnimeList.get(req.session.user.id);
             }
-
-            console.log(animeList)
 
             res.render('anime/show', { anime: anime.data, list: animeList })
         } catch (error) {
