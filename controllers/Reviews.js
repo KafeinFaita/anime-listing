@@ -1,6 +1,12 @@
 const Review = require('../models/Review');
 
 class ReviewController {
+
+    async show(req, res) {
+        console.log(req.url)
+        res.end();
+    }
+
     async create(req, res) {
         try {
             const { malID, subject, content } = req.body;

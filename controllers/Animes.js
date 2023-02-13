@@ -1,6 +1,7 @@
 const { default: axios } = require('axios');
 const Anime = require('../models/Anime');
 const AnimeList = require('../models/AnimeList');
+const Review = require('../models/Review');
 
 class AnimeController {
 
@@ -26,13 +27,14 @@ class AnimeController {
         try {
             const anime = await Anime.getOne(req.params.id);
             let animeList = null;
+            let reviews = await Review.getAnimePageReviews(req.params.id);
 
             // get user's anime list if they're logged in
             if (req.session.loggedIn) {
                 animeList = await AnimeList.get(req.session.user.id);
             }
 
-            res.render('anime/show', { anime: anime.data, list: animeList })
+            res.render('anime/show', { anime: anime.data, list: animeList, reviews })
         } catch (error) {
             res.json(error);
         }

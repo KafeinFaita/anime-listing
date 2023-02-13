@@ -52,11 +52,21 @@
             <h2>Synopsis:</h2>
             <p><%= anime.synopsis %></p>
 
-            
-
             <div class="anime_reviews">
                 <h2>Reviews</h2>
-                <p>No reviews for now! Be the first to review this anime.</p>
+                
+<% if(reviews.length > 0) { %>  
+    <% reviews.forEach(review => { %>
+                <div>    
+                    <h3><%= review.subject %></h3>
+                    <p><%= review.content %></p>
+                    <p>Written by: <a href="/users/<%= review.user_id %>"><%= review.username %></a></p>
+                </div>
+    <% }) %>
+<% } else { %>
+                <p>No reviews for now!</p>
+<% } %>
+                
                 <form>
                     <label for="subject">Subject:</label>
                     <input type="text" name="subject" id="subject">
@@ -64,7 +74,7 @@
                     <label for="content">Content</label>
                     <textarea name="content" id="content"></textarea>
 
-                    <input type="submit" value="Submit Review">
+                    <input type="submit" value="Submit Review" class="button color_theme">
                 </form>
             </div>
         </div>
@@ -150,7 +160,9 @@
             headers: { 'Content-Type': 'application/json' }
         });
         const data = await response.json();
-        console.log(data)
+        if (data.success === true) {
+            window.location.reload();
+        }
     })
 </script>
 </html>
