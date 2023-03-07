@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const AnimeList = require("../models/AnimeList");
 
 class UserController {
     new(req, res) {
@@ -8,8 +9,10 @@ class UserController {
     async show(req, res) {
         try {
             const user = await User.getOne(req.params.id);  
+            const list = await AnimeList.get(req.params.id);
+
             if (!user) res.json({ error: "err"});
-            res.render('users/show', { profileID: user.id, profileUsername: user.username, profileEmail: user.email, profileJoinDate: user.join_date });
+            res.render('users/show', { list, profileID: user.id, profileUsername: user.username, profileEmail: user.email, profileJoinDate: user.join_date });
         } catch (error) {
             
         }

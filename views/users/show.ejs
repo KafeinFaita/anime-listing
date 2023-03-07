@@ -17,11 +17,29 @@
         </div>
         
 
-        <div class="animelist_preview">
-            <p>test</p>
+        <div class="anime_list_main">
+            <h1><%= profileUsername %>'s Anime List </h1>
+            <select id="anime_list_sort">
+                <option disabled selected>Sort by:</option>
+                <option value="name">Name</option>
+                <option value="score">Score</option>
+                <option value="status">Status</option>
+            </select>
+            <table class="anime_list_table">
+                <thead class="color_theme">
+                    <th>Anime Title</th>
+                    <th>Status</th>
+                    <th>Score</th>
+                </thead>
+    <% list.forEach(li => { %>
+                <tr class="anime_list_table_row">
+                    <td><a href="/anime/<%= li.mal_id %>"><%= li.anime_title %></a></td>
+                    <td><%= li.status_name %></td>
+                    <td><%= li.score %></td>
+                </tr>
+    <% }) %> 
+            </table>
         </div>
-
-        <a href="/users/<%= profileID %>/anime_list/ ">View <%= profileUsername %>'s full anime list</a>
     </div>
     
 </body>
