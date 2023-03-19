@@ -68,6 +68,7 @@
 <% } %>
                 
                 <form>
+                    <p class="review_error_msg"></p>
                     <label for="subject">Subject:</label>
                     <input type="text" name="subject" id="subject">
                     
@@ -116,43 +117,52 @@
         }
     }
 
-    form.addEventListener('submit', async e => {
-        e.preventDefault();
+    if (form) {
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
 
-        const status = form.status.value;
-        const score = form.score.value;
-        const successMsg = document.querySelector('.list_success_msg');
+            const status = form.status.value;
+            const score = form.score.value;
+            const successMsg = document.querySelector('.list_success_msg');
 
-        successMsg.innerHTML = '';
+            successMsg.innerHTML = '';
 
-        try {
-            // values change depending if a user is logged in and if the anime already exists on their list
-            const userID = animeList ? <%- JSON.stringify(id) %> : null;
-            const method = animeList && userHasAnimeOnList ? 'PUT' : 'POST';
-            const url = animeList && userHasAnimeOnList ? `/users/${userID}/anime_list/edit` : '/anime_list';
+            try {
+                // values change depending if a user is logged in and if the anime already exists on their list
+                const userID = animeList ? <%- JSON.stringify(id) %> : null;
+                const method = animeList && userHasAnimeOnList ? 'PUT' : 'POST';
+                const url = animeList && userHasAnimeOnList ? `/users/${userID}/anime_list/edit` : '/anime_list';
 
-            const response = await fetch(url, {
-                method: method,
-                body: JSON.stringify({ status, score, malID, title }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            const data = await response.json();
-            console.log(data)
-            if (data.success === true) {
-                successMsg.innerHTML = 'List successfully updated!'
-            }
-           
-
-        } catch (error) {
+                const response = await fetch(url, {
+                    method: method,
+                    body: JSON.stringify({ status, score, malID, title }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                const data = await response.json();
+                console.log(data)
+                if (data.success === true) {
+                    successMsg.innerHTML = 'List successfully updated!'
+                }
             
-        }
-    })
+
+            } catch (error) {
+                
+            }
+        })
+    }
+
+    
 
     reviewForm.addEventListener('submit', async e => {
         e.preventDefault();
 
+        console.log('test')
+
+        const errorMsg = document.querySelector('.review_error_msg');
         const subject = reviewForm.subject.value;
         const content = reviewForm.content.value;
+
+        errorMsg.innerHTML = '';
 
         const response = await fetch(`/anime/${malID}`,{
             method: "POST",
@@ -160,6 +170,11 @@
             headers: { 'Content-Type': 'application/json' }
         });
         const data = await response.json();
+        
+        if (data.error) {
+            errorMsg.innerHTML = 'You need to log-in';
+        }
+
         if (data.success === true) {
             window.location.reload();
         }

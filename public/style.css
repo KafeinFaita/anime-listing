@@ -253,6 +253,11 @@ body {
                 height: 200px;
             }
 
+            .anime_reviews form .review_error_msg {
+                font-style: italic;
+                color: red;
+            }
+
             .anime_reviews div {
                 border-bottom: 2px solid gray;
                 padding: 15px 0;

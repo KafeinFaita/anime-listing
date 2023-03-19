@@ -25,10 +25,11 @@ class Middleware {
     }
 
     authUser(req, res, next) {
+        console.log('in authuser')
         if (req.session.loggedIn && req.session.user) {
             next();
         } else {
-            res.redirect('/');
+            res.status(401).json({ error: 'User not logged in' })
         }
     }
 }
