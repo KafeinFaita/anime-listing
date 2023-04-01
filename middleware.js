@@ -25,7 +25,6 @@ class Middleware {
     }
 
     authUser(req, res, next) {
-        console.log('in authuser')
         if (req.session.loggedIn && req.session.user) {
             next();
         } else {

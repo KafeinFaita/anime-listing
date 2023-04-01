@@ -1,4 +1,4 @@
-const { default: axios } = require('axios');
+// const { default: axios } = require('axios');
 const Anime = require('../models/Anime');
 const AnimeList = require('../models/AnimeList');
 const Review = require('../models/Review');
@@ -19,7 +19,7 @@ class AnimeController {
                 res.render('anime/index', { anime: anime.data.data });
             }    
         } catch (error) {
-            
+            throw error;
         }
     }
 

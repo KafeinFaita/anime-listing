@@ -380,6 +380,11 @@ thead {
     color: white;
 }
 
+@media only screen and (max-width: 600px) {
+    .navbar {
+       
+    }
+}
 
 @media only screen and (max-width: 1366px) {
     .anime_card {
@@ -388,3 +393,5 @@ thead {
         background-position: center;
     }
 }
+
+
