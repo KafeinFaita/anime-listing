@@ -280,6 +280,19 @@ body {
     display: inline-block;
 }
 
+/* about page */
+.about_main {
+    margin: 20px 50px;
+}
+
+.about_main h2 {
+    margin-top: 20px;
+}
+
+.about_main ul li {
+    list-style-position: inside;
+}
+
 /* slider styles */
 
    
